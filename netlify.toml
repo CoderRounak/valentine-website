@@ -1,7 +1,6 @@
 [build]
-  base = "frontend"
   command = "npm install && npx ng build --configuration production"
-  publish = "frontend/dist/valentine-game"
+  publish = "dist/valentine-game"
 
 [[redirects]]
   from = "/*"
