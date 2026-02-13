@@ -1,0 +1,111 @@
+<div class="game-container">
+  <!-- Animated Background -->
+  <div class="sparkles-container">
+    <div class="sparkle" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]"></div>
+  </div>
+
+  <!-- Game Instructions -->
+  <div class="instructions" *ngIf="!showQuestion && !showSuccess">
+    <h1 class="game-title">💕 Valentine's Surprise! 💕</h1>
+    <p class="instruction-text">Pop all {{totalBalloons}} balloons to reveal your surprise!</p>
+    <div class="counter">
+      <span class="counter-text">{{poppedCount}} / {{totalBalloons}}</span>
+    </div>
+  </div>
+
+  <!-- Balloons -->
+  <div class="balloons-container" *ngIf="!showQuestion && !showSuccess">
+    <div 
+      *ngFor="let balloon of balloons"
+      class="balloon"
+      [class.popped]="balloon.popped"
+      [style.left.%]="balloon.x"
+      [style.animation-delay.s]="balloon.delay"
+      [style.transform]="'scale(' + balloon.scale + ')'"
+      (click)="popBalloon(balloon, $event)"
+      (touchstart)="popBalloon(balloon, $event)">
+      
+      <svg viewBox="0 0 100 125" [style.fill]="balloon.color">
+        <path d="M50,10 C30,10 15,25 15,45 C15,60 25,75 35,85 L40,110 L50,100 L60,110 L65,85 C75,75 85,60 85,45 C85,25 70,10 50,10 Z"/>
+        <ellipse cx="35" cy="35" rx="8" ry="12" fill="rgba(255,255,255,0.3)"/>
+      </svg>
+      
+      <div class="balloon-string"></div>
+    </div>
+  </div>
+
+  <!-- Confetti -->
+  <div class="confetti-container">
+    <div 
+      *ngFor="let confetti of confettiPieces"
+      class="confetti-burst"
+      [style.left.px]="confetti.x"
+      [style.top.px]="confetti.y"
+      [style.background]="confetti.color"
+      [style.transform]="'rotate(' + confetti.angle + 'deg)'">
+    </div>
+  </div>
+
+  <!-- Valentine Question -->
+  <div class="question-card glass-card" *ngIf="showQuestion && !showSuccess">
+    <div class="heart-icon">💖</div>
+    <h1 class="question-title">Will You Be My Valentine?</h1>
+    <p class="question-subtitle">You popped all the balloons! Now it's time to answer... 😊</p>
+    <div class="button-group">
+      <button class="yes-button" (click)="onYesClick()">
+        Yes! Of Course! 💕
+      </button>
+      <button class="no-button-sad" (click)="onNoClick()">
+        No 😢
+      </button>
+    </div>
+  </div>
+
+  <!-- No Popup Modal -->
+  <div class="popup-overlay" *ngIf="showNoPopup && !showFinalScreen">
+    <div class="popup-card glass-card">
+      <div class="popup-emoji">
+        <span *ngIf="noClickCount < 3">🥺</span>
+        <span *ngIf="noClickCount >= 3 && noClickCount < 6">💔</span>
+        <span *ngIf="noClickCount >= 6">😭</span>
+      </div>
+      <h2 class="popup-title">{{ getCurrentNoMessage() }}</h2>
+      <div class="popup-buttons">
+        <button class="popup-yes-button" (click)="onYesClick()">
+          Okay, Yes! 💖
+        </button>
+        <button class="popup-no-button" (click)="onPopupNoClick()">
+          Still No... �
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final Screen - Giant Yes Button -->
+  <div class="final-screen" *ngIf="showFinalScreen" (click)="onYesClick()">
+    <div class="final-screen-content">
+      <div class="sad-image-container">
+        <img src="assets/sad-badrinath.png" alt="Sad Badrinath" class="sad-image">
+      </div>
+      <div class="image-quote">
+        <p class="quote-text">"Badrinath toh ban gaya..."</p>
+        <p class="quote-text-big">"Par Dulhaniya nahi mili! 😢"</p>
+      </div>
+      <div class="tap-instruction">
+        <p class="tap-text">WhatsApp pe hi haa boldo! 💕</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Screen -->
+  <div class="success-screen glass-card" *ngIf="showSuccess">
+    <div class="success-animation">
+      <div class="heart-burst">
+        <span *ngFor="let emoji of ['❤️','💕','💖','💗','💝','💘','💞','💓']">{{emoji}}</span>
+      </div>
+    </div>
+    <h1 class="success-title">🎉 Yay! You Made My Day! 🎉</h1>
+    <p class="success-message">I knew you'd say yes! This Valentine's Day is going to be amazing! 💕</p>
+    <button class="reset-button" (click)="reset()">Play Again 🎈</button>
+  </div>
+</div>
