@@ -1,7 +1,9 @@
 {
-  "buildCommand": "npm run build",
+  "version": 2,
+  "buildCommand": "npm install && npm run build",
   "outputDirectory": "dist/valentine-game",
   "framework": "angular",
+  "installCommand": "npm install",
   "rewrites": [
     {
       "source": "/(.*)",
